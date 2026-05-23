@@ -249,22 +249,14 @@ let cx = 0, cy = 0, ax = 0, ay = 0;
 document.addEventListener('mousemove', e => {
   cx = e.clientX; cy = e.clientY;
 
-  // ② Magnetic tilt on work cards - tilt whole card
+  // ② Store tilt targets (not apply - for rAF sync)
   document.querySelectorAll('.work-item:hover,.sketch-card:hover').forEach(el => {
     var r = el.getBoundingClientRect();
-    var x = (e.clientX - r.left) / r.width - 0.5;
-    var y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = 'perspective(800px) rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 5) + 'deg) scale(1.01)';
-    el.style.transition = 'none';
-    // Shine effect
-    var shine = el.querySelector('.wi-shine');
-    if (!shine) {
-      shine = document.createElement('div');
-      shine.className = 'wi-shine';
-      el.appendChild(shine);
-    }
-    shine.style.opacity = '0.15';
-    shine.style.background = 'radial-gradient(circle at ' + ((x + 0.5) * 100) + '% ' + ((y + 0.5) * 100) + '%, rgba(255,255,255,.4), transparent 70%)';
+    var tx = (e.clientX - r.left) / r.width - 0.5;
+    var ty = (e.clientY - r.top) / r.height - 0.5;
+    el.setAttribute('data-tx', tx);
+    el.setAttribute('data-ty', ty);
+    el.setAttribute('data-tilt', '1');
   });
 });
 document.querySelectorAll('a,button,.work-item,.sketch-card,.filter-btn').forEach(el => {
@@ -273,10 +265,11 @@ document.querySelectorAll('a,button,.work-item,.sketch-card,.filter-btn').forEac
     cursorEl.classList.remove('hover');
     // Reset magnetic tilt
     if (el.classList.contains('work-item') || el.classList.contains('sketch-card')) {
+      el.removeAttribute('data-tilt');
+      el.removeAttribute('data-tx');
+      el.removeAttribute('data-ty');
       el.style.transform = 'perspective(800px) rotateY(0) rotateX(0) scale(1)';
       el.style.transition = 'transform .5s cubic-bezier(.25,.1,.25,1)';
-      var shine = el.querySelector('.wi-shine');
-      if (shine) { shine.style.opacity = '0'; setTimeout(function(){ if(shine.parentNode) shine.remove(); }, 400); }
     }
   });
 });
@@ -298,6 +291,14 @@ function cursorLoop() {
   // 🎬 Tick sub-engines (every 2 frames = ~30fps each)
   if (fc % 2 === 0 && window.__tickStarfield) window.__tickStarfield();
   if (fc % 3 === 0 && window.__tickSand) window.__tickSand();
+
+  // ② Smooth tilt via rAF
+  document.querySelectorAll('[data-tilt]').forEach(el => {
+    var tx = parseFloat(el.getAttribute('data-tx') || 0);
+    var ty = parseFloat(el.getAttribute('data-ty') || 0);
+    el.style.transform = 'perspective(800px) rotateY(' + (tx * 8) + 'deg) rotateX(' + (-ty * 5) + 'deg) scale(1.01)';
+    el.style.transition = 'none';
+  });
 
   requestAnimationFrame(cursorLoop);
 }
