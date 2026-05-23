@@ -1,4 +1,4 @@
-/* ===== Fashion Portfolio v5 路 榛戦噾鏆楄壊鐗?===== */
+/* ===== Fashion Portfolio v5 · 黑金暗色版 ===== */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500;600&display=swap');
 
 :root {
@@ -35,7 +35,7 @@ a,button,.work-item{cursor:none}
   position:fixed;inset:0;z-index:0;
   background:radial-gradient(ellipse at 50% 30%,#0f1425 0%,#05060f 60%,#020308 100%)
 }
-/* 瑙嗗樊瑁呴グ灞?*/
+/* 视差装饰层 */
 .parallax-layer{position:fixed;inset:0;z-index:1;pointer-events:none;transition:transform .12s linear}
 .p-dot{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(180,165,130,.08) 0%,transparent 70%)}
 .p-ring{position:absolute;border:1px solid rgba(180,165,130,.05);border-radius:50%}
@@ -129,7 +129,7 @@ a,button,.work-item{cursor:none}
 .filter-btn:hover{color:var(--gold)}
 .filter-btn.active{color:var(--text);border-bottom-color:var(--gold)}
 
-/* ====== 浣滃搧锛氬叏瀹藉ぇ鍥?====== */
+/* ====== 作品：全宽大图 ====== */
 .work-list{display:flex;flex-direction:column;gap:4rem}
 .work-item{
   display:flex;align-items:center;
@@ -141,7 +141,7 @@ a,button,.work-item{cursor:none}
 .work-item:nth-child(even){flex-direction:row-reverse}
 .work-item.visible{opacity:1;transform:translateY(0)}
 
-/* 鍥剧墖鍖?*/
+/* 图片区 */
 .work-item .wi-img{
   flex:0 0 58%;
   position:relative;
@@ -162,7 +162,7 @@ a,button,.work-item{cursor:none}
 .wi-tag .wt-cat{font-size:.62rem;font-weight:500;text-transform:uppercase;letter-spacing:.28em;color:var(--gold-light);margin-bottom:.3rem}
 .wi-tag .wt-title{font-family:var(--serif);font-size:1.4rem;font-weight:400;color:#fff}
 
-/* 鍗犱綅鍥?*/
+/* 占位图 */
 .wi-img .wi-ph{
   aspect-ratio:4/3;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;
@@ -172,7 +172,7 @@ a,button,.work-item{cursor:none}
 .wi-ph .wi-ph-icon{font-size:2.5rem;opacity:.08}
 .wi-ph .wi-ph-name{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--dim)}
 
-/* 鏂囧瓧鍖?*/
+/* 文字区 */
 .work-item .wi-text{flex:1;padding-right:1rem}
 .work-item:nth-child(even) .wi-text{padding-right:0;padding-left:1rem}
 .wi-text .wt-cat2{font-size:.62rem;font-weight:500;text-transform:uppercase;letter-spacing:.28em;color:var(--gold);margin-bottom:.6rem}
@@ -225,7 +225,7 @@ a,button,.work-item{cursor:none}
 /* ====== FOOTER ====== */
 .site-footer{text-align:center;padding:4rem var(--pad);font-size:.62rem;color:var(--dim);letter-spacing:.28em;text-transform:uppercase}
 
-/* ====== 鍗曠 路 鐢诲粖缃戞牸 ====== */
+/* ====== 单稿 · 画廊网格 ====== */
 .sketch-hdr{padding-top:4rem}
 .sketch-grid{
   display:grid;
@@ -266,12 +266,12 @@ a,button,.work-item{cursor:none}
 .fade-up.visible{opacity:1;transform:translateY(0)}
 ::selection{background:var(--gold);color:var(--bg)}
 
-/* ====== 鉁?楂樼骇鎰熷叚瑕佺礌 ====== */
+/* ====== ✨ 高级感六要素 ====== */
 
-/* 鈶?婊氬姩杩涘害鏉?*/
+/* ① 滚动进度条 */
 .scroll-progress{position:fixed;top:0;left:0;z-index:1000;height:3px;background:linear-gradient(90deg,transparent,var(--gold-light),var(--gold));will-change:width;border-radius:0 2px 2px 0}
 
-/* 鈶?纾佹€у€炬枩 路 浣滃搧鍗＄墖 */
+/* ② 磁性倾斜 · 作品卡片 */
 .work-item{will-change:transform;transition:transform .5s cubic-bezier(.25,.1,.25,1)}
 .work-item .wi-img{transition:transform .5s cubic-bezier(.25,.1,.25,1)}
 .work-item:hover .wi-ph{
@@ -283,7 +283,7 @@ a,button,.work-item{cursor:none}
   border-radius:4px
 }
 
-/* 鈶?鍥剧墖鎻箷鍔ㄧ敾 */
+/* ③ 图片揭幕动画 */
 .wi-img img,.sk-img img{
   clip-path:inset(100% 0 0 0);
   transition:clip-path 1.2s cubic-bezier(.16,1,.3,1)
@@ -291,14 +291,14 @@ a,button,.work-item{cursor:none}
 .work-item.visible .wi-img img,
 .sketch-card.visible .sk-img img{clip-path:inset(0 0 0 0)}
 
-/* 鈶?鍖烘浜ゆ浛鑳屾櫙 */
+/* ④ 区段交替背景 */
 .works-section{background:transparent}
 .about-section{background:rgba(255,255,255,.01)}
 .contact-section{background:transparent}
 
-/* 鈶?瑁呴グ鍒嗛殧绾?*/
+/* ⑤ 装饰分隔线 */
 .works-hdr::after{content:'';position:absolute;top:50%;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(196,161,88,.2),transparent);z-index:-1}
 
-/* 鈶?Typography punch */
+/* ⑥ Typography punch */
 .works-hdr h2{font-size:clamp(2.2rem,6vw,3.6rem)}
 .hero h1{font-size:clamp(4rem,13vw,10rem)}
