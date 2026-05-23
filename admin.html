@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鍚庡彴绠＄悊 路 PORTFOLIO</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- ===== Login ===== -->
+<div class="login-page" id="loginPage">
+  <div class="login-box">
+    <h1>馃攼 鍚庡彴鐧诲綍</h1>
+    <p class="desc">杈撳叆閭鍜屽瘑鐮佽繘鍏ョ鐞嗗悗鍙?/p>
+    <label for="loginEmail">閭</label>
+    <input type="email" id="loginEmail" placeholder="your@email.com">
+    <label for="loginPassword">瀵嗙爜</label>
+    <input type="password" id="loginPassword" placeholder="路路路路路路路路">
+    <button class="btn btn-primary" id="loginBtn">鐧?褰?/button>
+    <p class="login-error" id="loginError"></p>
+  </div>
+</div>
+
+<!-- ===== Admin Layout ===== -->
+<div class="admin-layout" id="adminLayout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">PORTFOLIO</div>
+    <nav>
+      <a href="#" data-panel="projects" class="active">
+        <span>馃柤锔?/span> <span>浣滃搧绠＄悊</span>
+      </a>
+      <a href="#" data-panel="profile">
+        <span>馃懁</span> <span>涓汉璧勬枡</span>
+      </a>
+      <a href="#" data-panel="hero">
+        <span>馃幆</span> <span>棣栭〉璁剧疆</span>
+      </a>
+      <a href="#" data-panel="settings">
+        <span>鈿欙笍</span> <span>缃戠珯璁剧疆</span>
+      </a>
+    </nav>
+    <button class="btn btn-outline btn-small logout-btn" id="logoutBtn">閫€鍑虹櫥褰?/button>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ===== 浣滃搧绠＄悊 ===== -->
+    <section class="panel active" id="panel-projects">
+      <h2>馃柤锔?浣滃搧绠＄悊</h2>
+      <div style="margin-bottom:1.5rem;">
+        <button class="btn btn-primary" id="addProjectBtn">+ 鏂板缓浣滃搧</button>
+        <button class="btn btn-outline" id="previewBtn" style="margin-left:0.5rem;" title="鍦ㄦ柊绐楀彛棰勮鍓嶅彴">馃憗 棰勮</button>
+      </div>
+      <div class="project-list" id="projectList">
+        <div class="empty-list">
+          <div class="icon">馃摥</div>
+          <p>杩樻病鏈変綔鍝侊紝鐐瑰嚮涓婃柟鎸夐挳娣诲姞</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 涓汉璧勬枡 ===== -->
+    <section class="panel" id="panel-profile">
+      <h2>馃懁 涓汉璧勬枡</h2>
+      <form id="profileForm">
+        <div class="form-group">
+          <label>澶村儚</label>
+          <div class="image-upload" id="avatarUpload">
+            <div class="icon" id="avatarIcon">馃摲</div>
+            <p>鐐瑰嚮涓婁紶澶村儚</p>
+            <img class="preview" id="avatarPreview" src="" style="display:none;">
+            <input type="file" accept="image/*" id="avatarInput">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>濮撳悕</label>
+          <input type="text" id="profileName" placeholder="浣犵殑鍚嶅瓧">
+        </div>
+        <div class="form-group">
+          <label>鑻辨枃鍚?/label>
+          <input type="text" id="profileNameEn" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+          <label>涓汉绠€浠?/label>
+          <textarea id="profileBio" rows="4" placeholder="鍐欎竴娈佃嚜鎴戜粙缁?.."></textarea>
+        </div>
+        <div class="form-group">
+          <label>閭</label>
+          <input type="email" id="profileEmail" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>寰俊</label>
+          <input type="text" id="profileWechat" placeholder="寰俊鍙凤紙閫夊～锛?>
+        </div>
+        <div class="form-group">
+          <label>灏忕孩涔?/label>
+          <input type="text" id="profileXiaohongshu" placeholder="灏忕孩涔﹀彿锛堥€夊～锛?>
+        </div>
+        <div class="form-group">
+          <label>Instagram</label>
+          <input type="text" id="profileInstagram" placeholder="@username锛堥€夊～锛?>
+        </div>
+        <button type="submit" class="btn btn-primary">馃捑 淇濆瓨璧勬枡</button>
+      </form>
+    </section>
+
+    <!-- ===== 棣栭〉璁剧疆 ===== -->
+    <section class="panel" id="panel-hero">
+      <h2>馃幆 棣栭〉璁剧疆</h2>
+      <form id="heroForm">
+        <div class="form-group">
+          <label>涓绘爣棰橈紙绗竴琛岋級</label>
+          <input type="text" id="heroTitle" value="FASHION">
+        </div>
+        <div class="form-group">
+          <label>涓绘爣棰橈紙绗簩琛岋級</label>
+          <input type="text" id="heroTitle2" value="PORTFOLIO">
+        </div>
+        <div class="form-group">
+          <label>鍓爣棰?/label>
+          <input type="text" id="heroSubtitle" value="DESIGNER" placeholder="DESIGNER">
+        </div>
+        <div class="form-group">
+          <label>缃戠珯 Logo锛堝乏涓婅锛?/label>
+          <input type="text" id="siteLogoInput" value="PORTFOLIO" placeholder="PORTOFLIO">
+        </div>
+        <button type="submit" class="btn btn-primary">馃捑 淇濆瓨璁剧疆</button>
+      </form>
+    </section>
+
+    <!-- ===== 缃戠珯璁剧疆 ===== -->
+    <section class="panel" id="panel-settings">
+      <h2>鈿欙笍 缃戠珯璁剧疆</h2>
+      <div class="form-group">
+        <label>绠＄悊鍚庡彴瀵嗙爜锛堜慨鏀瑰瘑鐮侊級</label>
+        <input type="password" id="newPassword" placeholder="鏂板瘑鐮侊紙涓嶅～鍒欎笉淇敼锛?>
+      </div>
+      <button class="btn btn-primary" id="changePasswordBtn">馃敀 淇敼瀵嗙爜</button>
+
+      <hr style="margin:2rem 0; border:none; border-top:1px solid var(--admin-border);">
+
+      <p style="color:var(--admin-muted); font-size:0.85rem; margin-bottom:1rem;">
+        鈿狅笍 瀵煎嚭鏁版嵁涓?JSON 鏂囦欢锛屽彲鐢ㄤ簬澶囦唤鎴栬縼绉汇€?      </p>
+      <button class="btn btn-outline" id="exportBtn">馃摜 瀵煎嚭鎵€鏈夋暟鎹?/button>
+      <button class="btn btn-outline" id="importBtn" style="margin-left:0.5rem;">馃摛 瀵煎叆鏁版嵁</button>
+      <input type="file" id="importFile" accept=".json" style="display:none;">
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== 浣滃搧缂栬緫寮圭獥 ===== -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal-box">
+    <h3 id="modalTitle">鏂板缓浣滃搧</h3>
+    <form id="projectForm">
+      <input type="hidden" id="projectId">
+      <div class="form-group">
+        <label>绫诲瀷</label>
+        <div class="type-toggle">
+          <button type="button" class="type-opt active" data-type="project">馃搧 绯诲垪 / 椤圭洰</button>
+          <button type="button" class="type-opt" data-type="sketch">鉁忥笍 鍗曞紶璁捐绋?/button>
+        </div>
+        <input type="hidden" id="projectType" value="project">
+        <p class="form-hint" id="typeHint">绯诲垪/椤圭洰锛氫細浠ュぇ鍥?鏂囧瓧鎻忚堪灞曠ず鍦ㄧ綉绔欎笂</p>
+      </div>
+      <div class="form-group">
+        <label>浣滃搧鍥剧墖</label>
+        <div class="image-upload" id="projectImageUpload">
+          <div class="icon">馃摲</div>
+          <p>鐐瑰嚮涓婁紶浣滃搧鍥?/p>
+          <img class="preview" id="projectImagePreview" src="" style="display:none;">
+          <input type="file" accept="image/*" id="projectImageInput">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>浣滃搧鍚嶇О</label>
+        <input type="text" id="projectTitle" placeholder="浣滃搧鍚嶇О" required>
+      </div>
+      <div class="form-group">
+        <label>鍒嗙被</label>
+        <input type="text" id="projectCategory" placeholder="渚嬶細濂宠 / 鐢疯 / 姣曚笟璁捐">
+      </div>
+      <div class="form-group" id="descGroup">
+        <label>璁捐璇存槑</label>
+        <textarea id="projectDesc" rows="3" placeholder="绠€鍗曟弿杩拌璁＄悊蹇?.."></textarea>
+      </div>
+      <div class="form-group" id="tagsGroup" style="display:none">
+        <label>鏍囩 <span class="form-hint">锛堥€楀彿鍒嗛殧锛屽锛氭墜缁?澶忓,杩炶。瑁欙級</span></label>
+        <input type="text" id="projectTags" placeholder="鎵嬬粯,鏄ュ瀛?绀兼湇">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="cancelProjectBtn">鍙栨秷</button>
+        <button type="submit" class="btn btn-primary">馃捑 淇濆瓨</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== Scripts ===== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
