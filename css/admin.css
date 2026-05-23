@@ -1,0 +1,228 @@
+/* ===== Fashion Portfolio 路 鍚庡彴 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+
+:root {
+  --admin-bg: #f5f4f0;
+  --admin-surface: #ffffff;
+  --admin-text: #1a1a1a;
+  --admin-muted: #999;
+  --admin-border: #e8e5de;
+  --admin-accent: #1a1a1a;
+  --admin-danger: #d32f2f;
+  --admin-success: #2e7d32;
+  --admin-radius: 4px;
+  --admin-font: 'Inter', 'Noto Sans SC', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--admin-font);
+  background: var(--admin-bg);
+  color: var(--admin-text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===== Login ===== */
+.login-page {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.login-box {
+  background: var(--admin-surface);
+  padding: 3rem 2.5rem;
+  border-radius: 8px;
+  width: 100%; max-width: 400px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+  text-align: center;
+}
+.login-box h1 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; }
+.login-box .desc { color: var(--admin-muted); font-size: 0.85rem; margin-bottom: 2rem; }
+.login-box label { display: block; text-align: left; font-size: 0.8rem; font-weight: 500; margin-bottom: 0.3rem; color: var(--admin-muted); }
+.login-box input {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius); font-size: 0.9rem;
+  font-family: var(--admin-font);
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+.login-box input:focus { outline: none; border-color: var(--admin-accent); }
+.btn { 
+  display: inline-block; padding: 10px 24px; border: none; border-radius: var(--admin-radius);
+  font-family: var(--admin-font); font-size: 0.85rem; font-weight: 500; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary { background: var(--admin-accent); color: #fff; width: 100%; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-outline { background: none; border: 1px solid var(--admin-border); color: var(--admin-text); }
+.btn-outline:hover { background: var(--admin-bg); }
+.btn-danger { background: var(--admin-danger); color: #fff; }
+.btn-danger:hover { opacity: 0.85; }
+.btn-small { padding: 6px 14px; font-size: 0.75rem; }
+.login-error { color: var(--admin-danger); font-size: 0.8rem; margin-top: 0.5rem; display: none; }
+
+/* ===== Admin Layout ===== */
+.admin-layout { display: none; }
+.admin-layout.active { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 220px; background: var(--admin-surface);
+  border-right: 1px solid var(--admin-border);
+  padding: 1.5rem;
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0;
+}
+.sidebar .brand { font-size: 1rem; font-weight: 700; margin-bottom: 2rem; letter-spacing: 0.05em; }
+.sidebar nav { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; }
+.sidebar nav a {
+  text-decoration: none; color: var(--admin-muted);
+  padding: 8px 12px; border-radius: var(--admin-radius);
+  font-size: 0.85rem; transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.sidebar nav a:hover { background: var(--admin-bg); color: var(--admin-text); }
+.sidebar nav a.active { background: var(--admin-accent); color: #fff; }
+.sidebar .logout-btn { margin-top: auto; }
+
+/* Main */
+.main { 
+  flex: 1; margin-left: 220px;
+  padding: 2rem 2.5rem;
+  max-width: 1000px;
+}
+
+/* Panels */
+.panel { display: none; }
+.panel.active { display: block; }
+.panel h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; }
+
+/* Forms */
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--admin-muted); margin-bottom: 0.3rem; }
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius); font-family: var(--admin-font);
+  font-size: 0.9rem; transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus { outline: none; border-color: var(--admin-accent); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+/* Image Upload */
+.image-upload {
+  border: 2px dashed var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.image-upload:hover { border-color: var(--admin-accent); background: var(--admin-bg); }
+.image-upload .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.image-upload p { font-size: 0.85rem; color: var(--admin-muted); }
+.image-upload input[type="file"] { display: none; }
+.image-upload .preview {
+  max-width: 200px; max-height: 200px;
+  object-fit: cover; border-radius: var(--admin-radius);
+  margin-top: 1rem;
+}
+
+/* Project List */
+.project-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.project-row {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--admin-surface);
+  padding: 0.75rem 1rem;
+  border-radius: var(--admin-radius);
+  border: 1px solid var(--admin-border);
+  transition: all 0.2s;
+  cursor: grab;
+}
+.project-row:hover { border-color: var(--admin-accent); }
+.project-row.dragging { opacity: 0.5; }
+.project-row img {
+  width: 50px; height: 65px;
+  object-fit: cover; border-radius: 2px;
+}
+.project-row .info { flex: 1; }
+.project-row .info .title { font-weight: 500; font-size: 0.9rem; }
+.project-row .info .cat { font-size: 0.75rem; color: var(--admin-muted); }
+.project-row .actions { display: flex; gap: 0.5rem; }
+.project-row .handle { cursor: grab; color: var(--admin-muted); font-size: 1.2rem; }
+.project-row .empty-img {
+  width: 50px; height: 65px;
+  background: var(--admin-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: var(--admin-muted);
+  border-radius: 2px;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal-box {
+  background: var(--admin-surface);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%; max-width: 560px;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+.modal-box h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; }
+.modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: var(--admin-accent); color: #fff;
+  padding: 12px 24px; border-radius: var(--admin-radius);
+  font-size: 0.85rem; z-index: 2000;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.3s;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background: var(--admin-success); }
+.toast.error { background: var(--admin-danger); }
+
+/* Empty state */
+.empty-list { text-align: center; padding: 3rem; color: var(--admin-muted); }
+.empty-list .icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.3; }
+
+/* Type toggle */
+.type-toggle { display:flex; gap:0.5rem; }
+.type-opt {
+  flex:1; padding:10px; border:1px solid var(--admin-border);
+  border-radius:var(--admin-radius); background:var(--admin-surface);
+  font-family:var(--admin-font); font-size:0.85rem; cursor:pointer;
+  transition:all .2s; color:var(--admin-muted);
+}
+.type-opt:hover { border-color:var(--admin-accent); }
+.type-opt.active { background:var(--admin-accent); color:#fff; border-color:var(--admin-accent); }
+.form-hint { font-weight:300; color:var(--admin-muted); font-size:.78rem; margin-left:.3rem; }
+
+/* Project row type badge */
+.project-row .type-badge {
+  font-size:.65rem; padding:2px 8px; border-radius:10px;
+  font-weight:500; letter-spacing:.05em;
+}
+.type-badge.project { background:#1a1a1a; color:#fff; }
+.type-badge.sketch { background:#e8e5de; color:#666; }
+
+@media (max-width: 768px) {
+  .sidebar { width: 60px; padding: 1rem 0.5rem; }
+  .sidebar .brand { display: none; }
+  .sidebar nav a span { display: none; }
+  .main { margin-left: 60px; padding: 1.5rem; }
+}
