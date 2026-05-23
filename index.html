@@ -283,7 +283,7 @@ document.querySelectorAll('a,button,.work-item,.sketch-card,.filter-btn').forEac
 
 var fc = 0;
 function cursorLoop() {
-  ax += (cx - ax) * 0.7;
+  ax += (cx - ax) * 0.8;
   ay += (cy - ay) * 0.7;
   cursorEl.style.transform = 'translate(' + ax + 'px,' + ay + 'px)';
   updateParallax();
