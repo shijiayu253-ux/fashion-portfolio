@@ -254,7 +254,7 @@ document.addEventListener('mousemove', e => {
     var r = el.getBoundingClientRect();
     var x = (e.clientX - r.left) / r.width - 0.5;
     var y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = 'perspective(400px) rotateY(' + (x * 30) + 'deg) rotateX(' + (-y * 20) + 'deg) scale(1.02)';
+    el.style.transform = 'perspective(800px) rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 5) + 'deg) scale(1.01)';
     el.style.transition = 'none';
     // Shine effect
     var shine = el.querySelector('.wi-shine');
@@ -273,7 +273,7 @@ document.querySelectorAll('a,button,.work-item,.sketch-card,.filter-btn').forEac
     cursorEl.classList.remove('hover');
     // Reset magnetic tilt
     if (el.classList.contains('work-item') || el.classList.contains('sketch-card')) {
-      el.style.transform = 'perspective(400px) rotateY(0) rotateX(0) scale(1)';
+      el.style.transform = 'perspective(800px) rotateY(0) rotateX(0) scale(1)';
       el.style.transition = 'transform .5s cubic-bezier(.25,.1,.25,1)';
       var shine = el.querySelector('.wi-shine');
       if (shine) { shine.style.opacity = '0'; setTimeout(function(){ if(shine.parentNode) shine.remove(); }, 400); }
