@@ -231,6 +231,7 @@
   // Save project
   $('projectForm').addEventListener('submit', async e => {
     e.preventDefault();
+    try {
     const id = $('projectId').value;
     const title = $('projectTitle').value.trim();
     if (!title) { toast('请输入作品名称', 'error'); return; }
@@ -241,14 +242,13 @@
     if (file) {
       const ext = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('portfolio')
         .upload(fileName, file);
       if (uploadError) { toast('图片上传失败: ' + uploadError.message, 'error'); return; }
       const { data: urlData } = supabase.storage.from('portfolio').getPublicUrl(fileName);
       imageUrl = urlData.publicUrl;
     } else {
-      // Keep existing image
       imageUrl = $('projectImagePreview').style.display !== 'none' ? $('projectImagePreview').src : '';
     }
 
@@ -262,17 +262,21 @@
     };
 
     if (id) {
-      await supabase.from('projects').update(payload).eq('id', id);
+      const { error } = await supabase.from('projects').update(payload).eq('id', id);
+      if (error) { toast('更新失败: ' + error.message, 'error'); return; }
       toast('作品已更新', 'success');
     } else {
-      const { data: max } = await supabase.from('projects').select('sort_order').order('sort_order', { ascending: false }).limit(1);
+      const { data: max, error: maxErr } = await supabase.from('projects').select('sort_order').order('sort_order', { ascending: false }).limit(1);
+      if (maxErr) { toast('查询失败: ' + maxErr.message, 'error'); return; }
       payload.sort_order = (max?.[0]?.sort_order ?? -1) + 1;
-      await supabase.from('projects').insert(payload);
+      const { error } = await supabase.from('projects').insert(payload);
+      if (error) { toast('添加失败: ' + error.message, 'error'); return; }
       toast('作品已添加', 'success');
     }
 
     $('projectModal').classList.remove('open');
     loadProjects();
+    } catch(err) { toast('错误: ' + (err.message || err), 'error'); console.error(err); }
   });
 
   // ===== Load Profile =====
