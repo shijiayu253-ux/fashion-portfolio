@@ -306,10 +306,9 @@ function cursorLoop() {
     document.getElementById('scrollProgress').style.width = (pct * 100) + '%';
   }
 
-  // 🎬 Tick sub-engines (throttled)
+  // 🎬 Tick sub-engines
   if (fc % 3 === 0 && window.__tickStarfield) window.__tickStarfield();
-  // Sand only when active, max 12fps
-  if (window.__sandActive && fc % 5 === 0 && window.__tickSand) window.__tickSand();
+  if (fc % 5 === 0 && window.__tickSand) window.__tickSand();
 
   // ② Smooth tilt via rAF (every 2 frames)
   if (fc % 2 === 0) {
