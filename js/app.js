@@ -1,4 +1,4 @@
-// ===== Fashion Portfolio v5 路 榛戦噾鏆楄壊 JS =====
+// ===== Fashion Portfolio v5 · 黑金暗色 JS =====
 import * as THREE from 'three';
 (async function(){
   const cfg=window.SITE_CONFIG;
@@ -13,7 +13,7 @@ import * as THREE from 'three';
     el.addEventListener('mouseleave',()=>cur.classList.remove('hover'));
   });
 
-  // 3D 路 鏆楅噾寰厜绮掑瓙
+  // 3D · 暗金微光粒子
   const cvs=document.getElementById('three-bg');
   const rdr=new THREE.WebGLRenderer({canvas:cvs,antialias:true,alpha:true});
   rdr.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -38,7 +38,7 @@ import * as THREE from 'three';
   });
   const pts=new THREE.Points(geo,mat);scn.add(pts);
 
-  // 涓濆甫
+  // 丝带
   const ribbons=[];
   for(let r=0;r<4;r++){
     const arr=[];const by=(r-1.5)*3.5;const amp=.3+Math.random()*1.2;const fr=1+Math.random()*2;
@@ -119,7 +119,7 @@ import * as THREE from 'three';
     const list=document.getElementById('workList');
     const flt=document.getElementById('filters');
     if(!projects.length){
-      list.innerHTML='<div class="empty-state"><div class="icon">鉁?/div><p>Works coming soon</p></div>';
+      list.innerHTML='<div class="empty-state"><div class="icon">✦</div><p>Works coming soon</p></div>';
       return
     }
     const cats=new Set(projects.map(p=>p.category).filter(Boolean));
@@ -131,13 +131,13 @@ import * as THREE from 'three';
         <div class="wi-img">
           ${p.image_url
             ?`<img src="${p.image_url}" alt="${p.title}" loading="lazy"><div class="wi-tag"><div class="wt-cat">${p.category||''}</div><div class="wt-title">${p.title}</div></div>`
-            :`<div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">${p.title||'Untitled'}</span></div>`}
+            :`<div class="wi-ph"><span class="wi-ph-icon">✦</span><span class="wi-ph-name">${p.title||'Untitled'}</span></div>`}
         </div>
         <div class="wi-text">
           <div class="wt-cat2">${p.category||''}</div>
           <div class="wt-title2">${p.title}</div>
-          <div class="wt-desc">${p.description||'鐐瑰嚮鏌ョ湅澶у浘'}</div>
-          <div class="wt-link">View Project 鈫?/div>
+          <div class="wt-desc">${p.description||'点击查看大图'}</div>
+          <div class="wt-link">View Project →</div>
         </div>
       </div>
     `).join('');
