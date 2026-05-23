@@ -98,7 +98,7 @@
   let W, H;
 
   const stars = [];
-  const STAR_COUNT = 400;
+  const STAR_COUNT = 200;
   const nebulae = [];
   const SHOOTING_STARS = [];
 
@@ -288,17 +288,19 @@ function cursorLoop() {
     document.getElementById('scrollProgress').style.width = (pct * 100) + '%';
   }
 
-  // 🎬 Tick sub-engines (every 2 frames = ~30fps each)
-  if (fc % 2 === 0 && window.__tickStarfield) window.__tickStarfield();
-  if (fc % 3 === 0 && window.__tickSand) window.__tickSand();
+  // 🎬 Tick sub-engines (throttled)
+  if (fc % 3 === 0 && window.__tickStarfield) window.__tickStarfield();
+  if (fc % 5 === 0 && window.__tickSand) window.__tickSand();
 
-  // ② Smooth tilt via rAF
-  document.querySelectorAll('[data-tilt]').forEach(el => {
-    var tx = parseFloat(el.getAttribute('data-tx') || 0);
-    var ty = parseFloat(el.getAttribute('data-ty') || 0);
-    el.style.transform = 'perspective(800px) rotateY(' + (tx * 8) + 'deg) rotateX(' + (-ty * 5) + 'deg) scale(1.01)';
-    el.style.transition = 'none';
-  });
+  // ② Smooth tilt via rAF (every 2 frames)
+  if (fc % 2 === 0) {
+    document.querySelectorAll('[data-tilt]').forEach(el => {
+      var tx = parseFloat(el.getAttribute('data-tx') || 0);
+      var ty = parseFloat(el.getAttribute('data-ty') || 0);
+      el.style.transform = 'perspective(800px) rotateY(' + (tx * 8) + 'deg) rotateX(' + (-ty * 5) + 'deg) scale(1.01)';
+      el.style.transition = 'none';
+    });
+  }
 
   requestAnimationFrame(cursorLoop);
 }
@@ -454,7 +456,7 @@ function renderProfile(p) {
     octx.fillText(LINE2, W/2, topOffset + fs1 * 0.85 + fs2 * 0.4);
 
     const imgData = octx.getImageData(0, 0, off.width, off.height);
-    const step = 3;
+    const step = 4;
     for (let y = 0; y < off.height; y += step) {
       for (let x = 0; x < off.width; x += step) {
         const idx = (y * off.width + x) * 4;
