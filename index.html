@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<title>FASHION PORTFOLIO</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor" id="cursor"></div>
+<canvas id="starfield"></canvas>
+
+<!-- 馃寠 瑙嗗樊瑁呴グ灞?-->
+<div class="parallax-layer" id="pLayer">
+  <div class="p-dot" style="width:220px;height:220px;top:15%;left:8%;"></div>
+  <div class="p-dot" style="width:160px;height:160px;top:55%;right:12%;"></div>
+  <div class="p-ring" style="width:360px;height:360px;top:30%;left:-80px;"></div>
+  <div class="p-ring" style="width:200px;height:200px;bottom:25%;right:-40px;"></div>
+</div>
+
+<div class="content">
+
+<header class="site-header" id="header">
+  <div class="logo" id="siteLogo">PORTFOLIO</div>
+  <nav>
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <canvas id="sandCanvas" class="sand-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="overline">Fashion Design</div>
+    <canvas id="sandText" class="sand-text-canvas"></canvas>
+    <p class="sub" id="heroSub">Designer</p>
+  </div>
+  <div class="scroll-line">Scroll</div>
+</section>
+
+<section class="works-section" id="worksSection">
+  <!-- === 鏍峰搧灞曠ず锛堟湁鏁版嵁搴撴暟鎹悗鑷姩鏇挎崲锛?=== -->
+  <div class="works-hdr"><div class="num">01.</div><h2>Selected Works</h2><div class="line"></div></div>
+  <div class="work-list">
+    <div class="work-item visible" data-id="sample1">
+      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">Sample Project 1</span></div></div>
+      <div class="wi-text"><div class="wt-cat2">Womenswear</div><div class="wt-title2">Spring Collection</div><div class="wt-desc">杞荤伒鎰熸€э紝鏄ユ棩绗竴瀛ｃ€?/div><div class="wt-link">View Project 鈫?/div></div>
+    </div>
+    <div class="work-item" data-id="sample2">
+      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">Sample Project 2</span></div></div>
+      <div class="wi-text"><div class="wt-cat2">Menswear</div><div class="wt-title2">Urban Edge</div><div class="wt-desc">鍩庡競杞粨锛岀‖鏈楃嚎鏉°€?/div><div class="wt-link">View Project 鈫?/div></div>
+    </div>
+    <div class="work-item" data-id="sample3">
+      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">Sample Project 3</span></div></div>
+      <div class="wi-text"><div class="wt-cat2">Graduate</div><div class="wt-title2">Metamorphosis</div><div class="wt-desc">铚曞彉锛氫粠鑼у埌铦躲€?/div><div class="wt-link">View Project 鈫?/div></div>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">鉁?/button>
+  <div class="lightbox-inner">
+    <img id="lightboxImg" src="" alt="">
+    <div class="lb-cat" id="lightboxCat"></div>
+    <h3 class="lb-title" id="lightboxTitle"></h3>
+    <p class="lb-desc" id="lightboxDesc"></p>
+  </div>
+</div>
+
+<section class="about-section fade-up" id="about">
+  <div class="avatar-ph" id="avatarArea">鉁?/div>
+  <div class="tag">About</div>
+  <h2 id="aboutName">Your Name</h2>
+  <p class="bio" id="aboutBio">鍦ㄨ繖閲屼粙缁嶄綘鑷繁銆?/p>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="tag">Contact</div>
+  <h2>Get in Touch</h2>
+  <div class="contact-links" id="contactLinks"></div>
+</section>
+
+<footer class="site-footer">&copy; <span id="year"></span> &nbsp; All rights reserved</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script>
+// ===== 馃寣 鏄熺┖鑳屾櫙寮曟搸 =====
+(function(){
+  const cvs = document.getElementById('starfield');
+  const ctx = cvs.getContext('2d');
+  let W, H;
+
+  const stars = [];
+  const STAR_COUNT = 400;
+  const nebulae = [];
+  const SHOOTING_STARS = [];
+
+  function randomStar() {
+    const layer = Math.random();
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: layer < 0.05 ? 1.8 + Math.random() * 1.5 : layer < 0.2 ? 1 + Math.random() * 0.8 : 0.4 + Math.random() * 0.5,
+      alpha: 0.3 + Math.random() * 0.7,
+      twinkleSpeed: 0.005 + Math.random() * 0.03,
+      twinklePhase: Math.random() * Math.PI * 2,
+      color: Math.random() < 0.1 ? '#c4a158' : Math.random() < 0.2 ? '#aaccff' : '#e8e0d0',
+    };
+  }
+
+  function shuffleStar(s) {
+    s.x = (s.x + (Math.random() - 0.5) * 0.6 + W) % W;
+    s.y = (s.y + (Math.random() - 0.5) * 0.6 + H) % H;
+  }
+
+  function spawnShootingStar() {
+    return {
+      x: Math.random() * W * 0.8,
+      y: Math.random() * H * 0.4,
+      vx: 4 + Math.random() * 6,
+      vy: 1 + Math.random() * 3,
+      life: 1,
+      len: 40 + Math.random() * 80,
+    };
+  }
+
+  function resize() {
+    W = cvs.width = innerWidth;
+    H = cvs.height = innerHeight;
+    stars.length = 0;
+    for (let i = 0; i < STAR_COUNT; i++) stars.push(randomStar());
+    // Nebulae spots
+    nebulae.length = 0;
+    for (let i = 0; i < 4; i++) {
+      nebulae.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 150 + Math.random() * 400,
+        hue: i % 2 === 0 ? 220 : 280,
+        alpha: 0.015 + Math.random() * 0.02,
+      });
+    }
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Scroll parallax: stars drift slowly
+  window.addEventListener('scroll', () => {
+    const sy = scrollY * 0.04;
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].y = ((stars[i].y - sy) % H + H) % H;
+    }
+  }, { passive: true });
+
+  function drawNebula(n) {
+    const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+    grad.addColorStop(0, `hsla(${n.hue},40%,60%,${n.alpha * 1.5})`);
+    grad.addColorStop(0.5, `hsla(${n.hue},30%,40%,${n.alpha})`);
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(n.x - n.r, n.y - n.r, n.r * 2, n.r * 2);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Nebulae
+    for (const n of nebulae) drawNebula(n);
+
+    // Stars
+    const t = performance.now() * 0.001;
+    for (const s of stars) {
+      const a = s.alpha * (0.5 + 0.5 * Math.sin(t * s.twinkleSpeed + s.twinklePhase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.color.replace(')', `,${a})`).replace('rgb', 'rgba');
+      if (s.color.startsWith('#')) {
+        const hex = s.color;
+        const rr = parseInt(hex[1]+hex[2], 16);
+        const gg = parseInt(hex[3]+hex[4], 16);
+        const bb = parseInt(hex[5]+hex[6], 16);
+        ctx.fillStyle = `rgba(${rr},${gg},${bb},${a})`;
+      }
+      ctx.fill();
+      // Bright stars get glow
+      if (s.r > 1.5 && a > 0.6) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+        const hex = s.color;
+        const rr = parseInt(hex[1]+hex[2], 16);
+        const gg = parseInt(hex[3]+hex[4], 16);
+        const bb = parseInt(hex[5]+hex[6], 16);
+        ctx.fillStyle = `rgba(${rr},${gg},${bb},${a * 0.15})`;
+        ctx.fill();
+      }
+    }
+
+    // Shooting stars
+    if (Math.random() < 0.003) SHOOTING_STARS.push(spawnShootingStar());
+    for (let i = SHOOTING_STARS.length - 1; i >= 0; i--) {
+      const ss = SHOOTING_STARS[i];
+      ss.x += ss.vx;
+      ss.y += ss.vy;
+      ss.life -= 0.015;
+      if (ss.life <= 0) { SHOOTING_STARS.splice(i, 1); continue; }
+      const ex = ss.x - ss.vx * ss.len * 0.3;
+      const ey = ss.y - ss.vy * ss.len * 0.3;
+      const grad = ctx.createLinearGradient(ss.x, ss.y, ex, ey);
+      grad.addColorStop(0, `rgba(255,255,240,${ss.life})`);
+      grad.addColorStop(1, 'rgba(255,255,240,0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(ss.x, ss.y);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+    }
+  }
+  // Single-frame render, loop driven by master tick
+  draw();
+  window.__tickStarfield = draw;
+})();</script>
+<script>
+// ================ 馃寠 瑙嗗樊 + 鍏夋爣 + 鏁版嵁 ================
+
+// Parallax
+const pLayer = document.getElementById('pLayer');
+function updateParallax() {
+  if (pLayer) pLayer.style.transform = 'translateY(' + (scrollY * 0.35) + 'px)';
+}
+window.addEventListener('scroll', updateParallax, { passive: true });
+
+// Header
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', scrollY > 80);
+}, { passive: true });
+
+// Cursor
+const cursorEl = document.getElementById('cursor');
+let cx = 0, cy = 0, ax = 0, ay = 0;
+document.addEventListener('mousemove', e => {
+  cx = e.clientX; cy = e.clientY;
+
+  // 鈶?Magnetic tilt on work cards - tilt whole card
+  document.querySelectorAll('.work-item:hover,.sketch-card:hover').forEach(el => {
+    var r = el.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width - 0.5;
+    var y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = 'perspective(400px) rotateY(' + (x * 30) + 'deg) rotateX(' + (-y * 20) + 'deg) scale(1.02)';
+    el.style.transition = 'none';
+    // Shine effect
+    var shine = el.querySelector('.wi-shine');
+    if (!shine) {
+      shine = document.createElement('div');
+      shine.className = 'wi-shine';
+      el.appendChild(shine);
+    }
+    shine.style.opacity = '0.15';
+    shine.style.background = 'radial-gradient(circle at ' + ((x + 0.5) * 100) + '% ' + ((y + 0.5) * 100) + '%, rgba(255,255,255,.4), transparent 70%)';
+  });
+});
+document.querySelectorAll('a,button,.work-item,.sketch-card,.filter-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorEl.classList.add('hover'));
+  el.addEventListener('mouseleave', () => {
+    cursorEl.classList.remove('hover');
+    // Reset magnetic tilt
+    if (el.classList.contains('work-item') || el.classList.contains('sketch-card')) {
+      el.style.transform = 'perspective(400px) rotateY(0) rotateX(0) scale(1)';
+      el.style.transition = 'transform .5s cubic-bezier(.25,.1,.25,1)';
+      var shine = el.querySelector('.wi-shine');
+      if (shine) { shine.style.opacity = '0'; setTimeout(function(){ if(shine.parentNode) shine.remove(); }, 400); }
+    }
+  });
+});
+
+var fc = 0;
+function cursorLoop() {
+  ax += (cx - ax) * 0.7;
+  ay += (cy - ay) * 0.7;
+  cursorEl.style.transform = 'translate(' + ax + 'px,' + ay + 'px)';
+  updateParallax();
+  fc++;
+
+  // 鈶?Scroll progress (~every 6 frames)
+  if (fc % 6 === 0) {
+    var pct = scrollY / (document.body.scrollHeight - innerHeight);
+    document.getElementById('scrollProgress').style.width = (pct * 100) + '%';
+  }
+
+  // 馃幀 Tick sub-engines (every 2 frames = ~30fps each)
+  if (fc % 2 === 0 && window.__tickStarfield) window.__tickStarfield();
+  if (fc % 3 === 0 && window.__tickSand) window.__tickSand();
+
+  requestAnimationFrame(cursorLoop);
+}
+
+// ================ 馃摝 鏁版嵁鍔犺浇 ================
+const cfg = window.SITE_CONFIG;
+const sb = cfg.supabaseUrl.includes('YOUR') ? null : window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+
+function openLightbox(item) {
+  document.getElementById('lightboxImg').src = item.image_url || '';
+  document.getElementById('lightboxCat').textContent = item.category || '';
+  document.getElementById('lightboxTitle').textContent = item.title;
+  document.getElementById('lightboxDesc').textContent = item.description || (item.tags ? '鏍囩锛? + item.tags : '');
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function renderAll(items) {
+  if (!items.length) return; // 淇濈暀鏍峰搧锛屽彧鏈夌湡瀹炴暟鎹墠瑕嗙洊
+  const projects = items.filter(p => (p.type || 'project') === 'project');
+  const sketches = items.filter(p => p.type === 'sketch');
+  let html = '';
+
+  // 绯诲垪
+  if (projects.length) {
+    html += '<div class="works-hdr"><div class="num">01.</div><h2>Projects</h2><div class="line"></div></div>';
+    html += '<div class="work-list">';
+    projects.forEach(p => {
+      html += '<div class="work-item" data-id="' + p.id + '">' +
+        '<div class="wi-img">' +
+          (p.image_url
+            ? '<img src="' + p.image_url + '" alt="' + p.title + '" loading="lazy"><div class="wi-tag"><div class="wt-cat">' + (p.category || '') + '</div><div class="wt-title">' + p.title + '</div></div>'
+            : '<div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">' + (p.title || 'Untitled') + '</span></div>') +
+        '</div>' +
+        '<div class="wi-text">' +
+          '<div class="wt-cat2">' + (p.category || '') + '</div>' +
+          '<div class="wt-title2">' + p.title + '</div>' +
+          '<div class="wt-desc">' + (p.description || '') + '</div>' +
+          '<div class="wt-link">View Project 鈫?/div>' +
+        '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  // 鍗曠鐢诲粖
+  if (sketches.length) {
+    html += '<div class="works-hdr sketch-hdr"><div class="num">02.</div><h2>Design Sketches</h2><div class="line"></div></div>';
+    const tags = {};
+    sketches.forEach(s => { if (s.tags) s.tags.split(',').forEach(t => { t = t.trim(); if (t) tags[t] = true; }); });
+
+    html += '<div class="filters" id="sketchFilters"><button class="filter-btn active" data-tag="all">All</button>';
+    Object.keys(tags).forEach(t => { html += '<button class="filter-btn" data-tag="' + t + '">' + t + '</button>'; });
+    html += '</div>';
+    html += '<div class="sketch-grid">';
+    sketches.forEach((s, i) => {
+      html += '<div class="sketch-card" data-tags="' + (s.tags || '') + '" data-id="' + s.id + '" style="transition-delay:' + (i * 0.06) + 's">' +
+        (s.image_url
+          ? '<div class="sk-img"><img src="' + s.image_url + '" alt="' + s.title + '" loading="lazy"></div>'
+          : '<div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">' + (s.title || 'Untitled') + '</span></div>') +
+        '<div class="sk-info"><div class="sk-title">' + s.title + '</div>' +
+        (s.tags ? '<div class="sk-tags">' + s.tags.split(',').map(t => '<span class="sk-tag">' + t.trim() + '</span>').join('') + '</div>' : '') +
+        '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  document.getElementById('worksSection').innerHTML = html;
+
+  // 浜嬩欢缁戝畾
+  document.querySelectorAll('.work-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const p = items.find(pr => String(pr.id) === item.dataset.id);
+      if (p) openLightbox(p);
+    });
+  });
+  document.querySelectorAll('.sketch-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const s = items.find(pr => String(pr.id) === card.dataset.id);
+      if (s) openLightbox(s);
+    });
+  });
+
+  // 鏍囩绛涢€?  const sf = document.getElementById('sketchFilters');
+  if (sf) {
+    sf.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sf.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.sketch-card').forEach(card => {
+          card.style.display = (btn.dataset.tag === 'all' || (',' + card.dataset.tags + ',').indexOf(',' + btn.dataset.tag + ',') !== -1) ? '' : 'none';
+        });
+      });
+    });
+  }
+
+  setTimeout(initScrollAnim, 50);
+}
+
+function renderProfile(p) {
+  if (p.name) {
+    document.getElementById('aboutName').textContent = p.name;
+    document.title = p.name;
+    document.getElementById('siteLogo').textContent = p.name;
+  }
+  if (p.bio) document.getElementById('aboutBio').textContent = p.bio;
+  // Hero text is now canvas-based sand 鈥?rebuild if name changes
+  if (p.hero_subtitle) document.getElementById('heroSub').textContent = p.hero_subtitle;
+  if (p.avatar_url) {
+    const a = document.getElementById('avatarArea');
+    a.className = 'avatar';
+    a.innerHTML = '<img src="' + p.avatar_url + '" alt="" class="avatar">';
+  }
+  const lk = document.getElementById('contactLinks'); lk.innerHTML = '';
+  if (p.contact_email) lk.innerHTML += '<a class="contact-link" href="mailto:' + p.contact_email + '">Email</a>';
+  if (p.contact_instagram) lk.innerHTML += '<a class="contact-link" href="https://instagram.com/' + p.contact_instagram.replace('@', '') + '">Instagram</a>';
+  if (p.contact_xiaohongshu) lk.innerHTML += '<a class="contact-link">Xiaohongshu</a>';
+  if (p.contact_wechat) lk.innerHTML += '<a class="contact-link">WeChat</a>';
+}
+
+// 馃彇锔?绮掑瓙娌欐枃瀛楀紩鎿?(function initSandText() {
+  const sandCanvas = document.getElementById('sandText');
+  const ctx = sandCanvas.getContext('2d');
+  const heroEl = document.querySelector('.hero');
+  const sandParticlesCanvas = document.getElementById('sandCanvas');
+  const sctx = sandParticlesCanvas.getContext('2d');
+
+  const LINE1 = 'FASHION';
+  const LINE2 = 'PORTFOLIO';
+  const particles = [];
+  let W = 0, H = 0;
+  let mx = -9999, my = -9999;
+  let mouseOn = false;
+
+  function buildParticles() {
+    particles.length = 0;
+    const off = document.createElement('canvas');
+    const octx = off.getContext('2d');
+    const fs1 = Math.min(W * 0.22, 150);
+    const fs2 = Math.min(W * 0.15, 100);
+    off.width = W;
+    off.height = H;
+
+    const textBlockH = fs1 * 1.2 + fs2 * 1.2;
+    const topOffset = (H - textBlockH) / 2;
+
+    octx.fillStyle = '#ffffff';
+    octx.textAlign = 'center';
+    octx.textBaseline = 'middle';
+    octx.font = `400 ${fs1}px "Playfair Display","Noto Serif SC",serif`;
+    octx.fillText(LINE1, W/2, topOffset + fs1 * 0.45);
+    octx.font = `italic 400 ${fs2}px "Playfair Display","Noto Serif SC",serif`;
+    octx.fillText(LINE2, W/2, topOffset + fs1 * 0.85 + fs2 * 0.4);
+
+    const imgData = octx.getImageData(0, 0, off.width, off.height);
+    const step = 3;
+    for (let y = 0; y < off.height; y += step) {
+      for (let x = 0; x < off.width; x += step) {
+        const idx = (y * off.width + x) * 4;
+        if (imgData.data[idx + 3] > 80) {
+          particles.push({
+            homeX: x + (Math.random() - 0.5) * 1.5,
+            homeY: y + (Math.random() - 0.5) * 1.5,
+            x: x + (Math.random() - 0.5) * 1.5,
+            y: y + (Math.random() - 0.5) * 1.5,
+            vx: 0, vy: 0,
+            size: 0.7 + Math.random() * 1.6,
+            alpha: 0.4 + Math.random() * 0.6,
+          });
+        }
+      }
+    }
+  }
+
+  function resize() {
+    W = sandCanvas.offsetWidth;
+    H = sandCanvas.offsetHeight;
+    sandCanvas.width = W;
+    sandCanvas.height = H;
+    sandParticlesCanvas.width = W;
+    sandParticlesCanvas.height = H;
+    buildParticles();
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  // Rebuild when fonts load + extra safety delay
+  document.fonts.ready.then(() => setTimeout(resize, 200));
+
+  // Use document mousemove for reliable tracking
+  document.addEventListener('mousemove', e => {
+    const rect = sandCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (x >= 0 && x <= W && y >= 0 && y <= H) {
+      mx = x;
+      my = y;
+      mouseOn = true;
+    } else {
+      mouseOn = false;
+    }
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    sctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      const dx = p.x - mx;
+      const dy = p.y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const forceRadius = 150;
+
+      if (mouseOn && dist < forceRadius) {
+        const force = (1 - dist / forceRadius);
+        const pushStrength = force * force * 20;
+        const angle = Math.atan2(dy, dx);
+        p.vx += Math.cos(angle) * pushStrength * 0.35;
+        p.vy += Math.sin(angle) * pushStrength * 0.35;
+        if (Math.random() < force * 0.2) {
+          sctx.beginPath();
+          sctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
+          sctx.fillStyle = 'rgba(196,161,88,0.35)';
+          sctx.fill();
+        }
+      }
+
+      const sx = p.homeX - p.x;
+      const sy = p.homeY - p.y;
+      p.vx += sx * 0.05;
+      p.vy += sy * 0.05;
+      p.vx *= 0.84;
+      p.vy *= 0.84;
+      p.vx += (Math.random() - 0.5) * 0.06;
+      p.vy += (Math.random() - 0.5) * 0.06;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(196,161,88,${p.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  // Unified frame ticking
+  window.__tickSand = animate;
+})();
+
+function initScrollAnim() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.work-item,.fade-up,.sketch-card').forEach(el => obs.observe(el));
+}
+
+// Lightbox
+document.getElementById('lightboxClose').addEventListener('click', () => document.getElementById('lightbox').classList.remove('open'));
+document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) document.getElementById('lightbox').classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open'); });
+
+// Load
+document.getElementById('year').textContent = new Date().getFullYear();
+initScrollAnim();
+cursorLoop();
+
+if (sb) {
+  sb.from('profile').select('*').single().then(r => {
+    if (r.data) renderProfile(r.data);
+    return sb.from('projects').select('*').order('sort_order');
+  }).then(r => {
+    renderAll(r.data || []);
+  }).catch(() => renderAll([]));
+} else {
+  renderAll([]);
+}
+</script>
+</body>
+</html>
