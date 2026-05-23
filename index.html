@@ -13,7 +13,7 @@
 <div class="cursor" id="cursor"></div>
 <canvas id="starfield"></canvas>
 
-<!-- 馃寠 瑙嗗樊瑁呴グ灞?-->
+<!-- 🌊 视差装饰层 -->
 <div class="parallax-layer" id="pLayer">
   <div class="p-dot" style="width:220px;height:220px;top:15%;left:8%;"></div>
   <div class="p-dot" style="width:160px;height:160px;top:55%;right:12%;"></div>
@@ -43,26 +43,26 @@
 </section>
 
 <section class="works-section" id="worksSection">
-  <!-- === 鏍峰搧灞曠ず锛堟湁鏁版嵁搴撴暟鎹悗鑷姩鏇挎崲锛?=== -->
+  <!-- === 样品展示（有数据库数据后自动替换） === -->
   <div class="works-hdr"><div class="num">01.</div><h2>Selected Works</h2><div class="line"></div></div>
   <div class="work-list">
     <div class="work-item visible" data-id="sample1">
-      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">Sample Project 1</span></div></div>
-      <div class="wi-text"><div class="wt-cat2">Womenswear</div><div class="wt-title2">Spring Collection</div><div class="wt-desc">杞荤伒鎰熸€э紝鏄ユ棩绗竴瀛ｃ€?/div><div class="wt-link">View Project 鈫?/div></div>
+      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">✦</span><span class="wi-ph-name">Sample Project 1</span></div></div>
+      <div class="wi-text"><div class="wt-cat2">Womenswear</div><div class="wt-title2">Spring Collection</div><div class="wt-desc">轻灵感性，春日第一季。</div><div class="wt-link">View Project →</div></div>
     </div>
     <div class="work-item" data-id="sample2">
-      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">Sample Project 2</span></div></div>
-      <div class="wi-text"><div class="wt-cat2">Menswear</div><div class="wt-title2">Urban Edge</div><div class="wt-desc">鍩庡競杞粨锛岀‖鏈楃嚎鏉°€?/div><div class="wt-link">View Project 鈫?/div></div>
+      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">✦</span><span class="wi-ph-name">Sample Project 2</span></div></div>
+      <div class="wi-text"><div class="wt-cat2">Menswear</div><div class="wt-title2">Urban Edge</div><div class="wt-desc">城市轮廓，硬朗线条。</div><div class="wt-link">View Project →</div></div>
     </div>
     <div class="work-item" data-id="sample3">
-      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">Sample Project 3</span></div></div>
-      <div class="wi-text"><div class="wt-cat2">Graduate</div><div class="wt-title2">Metamorphosis</div><div class="wt-desc">铚曞彉锛氫粠鑼у埌铦躲€?/div><div class="wt-link">View Project 鈫?/div></div>
+      <div class="wi-img"><div class="wi-ph"><span class="wi-ph-icon">✦</span><span class="wi-ph-name">Sample Project 3</span></div></div>
+      <div class="wi-text"><div class="wt-cat2">Graduate</div><div class="wt-title2">Metamorphosis</div><div class="wt-desc">蜕变：从茧到蝶。</div><div class="wt-link">View Project →</div></div>
     </div>
   </div>
 </section>
 
 <div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose">鉁?/button>
+  <button class="lightbox-close" id="lightboxClose">✕</button>
   <div class="lightbox-inner">
     <img id="lightboxImg" src="" alt="">
     <div class="lb-cat" id="lightboxCat"></div>
@@ -72,10 +72,10 @@
 </div>
 
 <section class="about-section fade-up" id="about">
-  <div class="avatar-ph" id="avatarArea">鉁?/div>
+  <div class="avatar-ph" id="avatarArea">✦</div>
   <div class="tag">About</div>
   <h2 id="aboutName">Your Name</h2>
-  <p class="bio" id="aboutBio">鍦ㄨ繖閲屼粙缁嶄綘鑷繁銆?/p>
+  <p class="bio" id="aboutBio">在这里介绍你自己。</p>
 </section>
 
 <section class="contact-section" id="contact">
@@ -91,7 +91,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js"></script>
 <script>
-// ===== 馃寣 鏄熺┖鑳屾櫙寮曟搸 =====
+// ===== 🌌 星空背景引擎 =====
 (function(){
   const cvs = document.getElementById('starfield');
   const ctx = cvs.getContext('2d');
@@ -229,7 +229,7 @@
   window.__tickStarfield = draw;
 })();</script>
 <script>
-// ================ 馃寠 瑙嗗樊 + 鍏夋爣 + 鏁版嵁 ================
+// ================ 🌊 视差 + 光标 + 数据 ================
 
 // Parallax
 const pLayer = document.getElementById('pLayer');
@@ -249,7 +249,7 @@ let cx = 0, cy = 0, ax = 0, ay = 0;
 document.addEventListener('mousemove', e => {
   cx = e.clientX; cy = e.clientY;
 
-  // 鈶?Magnetic tilt on work cards - tilt whole card
+  // ② Magnetic tilt on work cards - tilt whole card
   document.querySelectorAll('.work-item:hover,.sketch-card:hover').forEach(el => {
     var r = el.getBoundingClientRect();
     var x = (e.clientX - r.left) / r.width - 0.5;
@@ -289,20 +289,20 @@ function cursorLoop() {
   updateParallax();
   fc++;
 
-  // 鈶?Scroll progress (~every 6 frames)
+  // ① Scroll progress (~every 6 frames)
   if (fc % 6 === 0) {
     var pct = scrollY / (document.body.scrollHeight - innerHeight);
     document.getElementById('scrollProgress').style.width = (pct * 100) + '%';
   }
 
-  // 馃幀 Tick sub-engines (every 2 frames = ~30fps each)
+  // 🎬 Tick sub-engines (every 2 frames = ~30fps each)
   if (fc % 2 === 0 && window.__tickStarfield) window.__tickStarfield();
   if (fc % 3 === 0 && window.__tickSand) window.__tickSand();
 
   requestAnimationFrame(cursorLoop);
 }
 
-// ================ 馃摝 鏁版嵁鍔犺浇 ================
+// ================ 📦 数据加载 ================
 const cfg = window.SITE_CONFIG;
 const sb = cfg.supabaseUrl.includes('YOUR') ? null : window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
 
@@ -310,17 +310,17 @@ function openLightbox(item) {
   document.getElementById('lightboxImg').src = item.image_url || '';
   document.getElementById('lightboxCat').textContent = item.category || '';
   document.getElementById('lightboxTitle').textContent = item.title;
-  document.getElementById('lightboxDesc').textContent = item.description || (item.tags ? '鏍囩锛? + item.tags : '');
+  document.getElementById('lightboxDesc').textContent = item.description || (item.tags ? '标签：' + item.tags : '');
   document.getElementById('lightbox').classList.add('open');
 }
 
 function renderAll(items) {
-  if (!items.length) return; // 淇濈暀鏍峰搧锛屽彧鏈夌湡瀹炴暟鎹墠瑕嗙洊
+  if (!items.length) return; // 保留样品，只有真实数据才覆盖
   const projects = items.filter(p => (p.type || 'project') === 'project');
   const sketches = items.filter(p => p.type === 'sketch');
   let html = '';
 
-  // 绯诲垪
+  // 系列
   if (projects.length) {
     html += '<div class="works-hdr"><div class="num">01.</div><h2>Projects</h2><div class="line"></div></div>';
     html += '<div class="work-list">';
@@ -329,19 +329,19 @@ function renderAll(items) {
         '<div class="wi-img">' +
           (p.image_url
             ? '<img src="' + p.image_url + '" alt="' + p.title + '" loading="lazy"><div class="wi-tag"><div class="wt-cat">' + (p.category || '') + '</div><div class="wt-title">' + p.title + '</div></div>'
-            : '<div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">' + (p.title || 'Untitled') + '</span></div>') +
+            : '<div class="wi-ph"><span class="wi-ph-icon">✦</span><span class="wi-ph-name">' + (p.title || 'Untitled') + '</span></div>') +
         '</div>' +
         '<div class="wi-text">' +
           '<div class="wt-cat2">' + (p.category || '') + '</div>' +
           '<div class="wt-title2">' + p.title + '</div>' +
           '<div class="wt-desc">' + (p.description || '') + '</div>' +
-          '<div class="wt-link">View Project 鈫?/div>' +
+          '<div class="wt-link">View Project →</div>' +
         '</div></div>';
     });
     html += '</div>';
   }
 
-  // 鍗曠鐢诲粖
+  // 单稿画廊
   if (sketches.length) {
     html += '<div class="works-hdr sketch-hdr"><div class="num">02.</div><h2>Design Sketches</h2><div class="line"></div></div>';
     const tags = {};
@@ -355,7 +355,7 @@ function renderAll(items) {
       html += '<div class="sketch-card" data-tags="' + (s.tags || '') + '" data-id="' + s.id + '" style="transition-delay:' + (i * 0.06) + 's">' +
         (s.image_url
           ? '<div class="sk-img"><img src="' + s.image_url + '" alt="' + s.title + '" loading="lazy"></div>'
-          : '<div class="wi-ph"><span class="wi-ph-icon">鉁?/span><span class="wi-ph-name">' + (s.title || 'Untitled') + '</span></div>') +
+          : '<div class="wi-ph"><span class="wi-ph-icon">✦</span><span class="wi-ph-name">' + (s.title || 'Untitled') + '</span></div>') +
         '<div class="sk-info"><div class="sk-title">' + s.title + '</div>' +
         (s.tags ? '<div class="sk-tags">' + s.tags.split(',').map(t => '<span class="sk-tag">' + t.trim() + '</span>').join('') + '</div>' : '') +
         '</div></div>';
@@ -365,7 +365,7 @@ function renderAll(items) {
 
   document.getElementById('worksSection').innerHTML = html;
 
-  // 浜嬩欢缁戝畾
+  // 事件绑定
   document.querySelectorAll('.work-item').forEach(item => {
     item.addEventListener('click', () => {
       const p = items.find(pr => String(pr.id) === item.dataset.id);
@@ -379,7 +379,8 @@ function renderAll(items) {
     });
   });
 
-  // 鏍囩绛涢€?  const sf = document.getElementById('sketchFilters');
+  // 标签筛选
+  const sf = document.getElementById('sketchFilters');
   if (sf) {
     sf.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -402,7 +403,7 @@ function renderProfile(p) {
     document.getElementById('siteLogo').textContent = p.name;
   }
   if (p.bio) document.getElementById('aboutBio').textContent = p.bio;
-  // Hero text is now canvas-based sand 鈥?rebuild if name changes
+  // Hero text is now canvas-based sand — rebuild if name changes
   if (p.hero_subtitle) document.getElementById('heroSub').textContent = p.hero_subtitle;
   if (p.avatar_url) {
     const a = document.getElementById('avatarArea');
@@ -416,7 +417,8 @@ function renderProfile(p) {
   if (p.contact_wechat) lk.innerHTML += '<a class="contact-link">WeChat</a>';
 }
 
-// 馃彇锔?绮掑瓙娌欐枃瀛楀紩鎿?(function initSandText() {
+// 🏖️ 粒子沙文字引擎
+(function initSandText() {
   const sandCanvas = document.getElementById('sandText');
   const ctx = sandCanvas.getContext('2d');
   const heroEl = document.querySelector('.hero');
