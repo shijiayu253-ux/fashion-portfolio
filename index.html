@@ -275,6 +275,24 @@ document.querySelectorAll('a,button,.work-item,.sketch-card,.filter-btn').forEac
 });
 
 var fc = 0;
+// ✨ Floating gold particles
+(function(){
+  setInterval(function(){
+    if (document.hidden) return;
+    var p = document.createElement('div');
+    p.className = 'floating-particle';
+    var size = 2 + Math.random() * 4;
+    p.style.left = Math.random() * 100 + '%';
+    p.style.bottom = '-20px';
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.animationDuration = (6 + Math.random() * 10) + 's';
+    p.style.animationDelay = '0s';
+    document.body.appendChild(p);
+    setTimeout(function(){ if (p.parentNode) p.remove(); }, 17000);
+  }, 800);
+})();
+
 function cursorLoop() {
   ax += (cx - ax) * 0.8;
   ay += (cy - ay) * 0.7;
