@@ -98,7 +98,7 @@
   let W, H;
 
   const stars = [];
-  const STAR_COUNT = 200;
+  const STAR_COUNT = 120;
   const nebulae = [];
   const SHOOTING_STARS = [];
 
@@ -290,7 +290,8 @@ function cursorLoop() {
 
   // 🎬 Tick sub-engines (throttled)
   if (fc % 3 === 0 && window.__tickStarfield) window.__tickStarfield();
-  if (fc % 5 === 0 && window.__tickSand) window.__tickSand();
+  // Sand only when active, max 12fps
+  if (window.__sandActive && fc % 5 === 0 && window.__tickSand) window.__tickSand();
 
   // ② Smooth tilt via rAF (every 2 frames)
   if (fc % 2 === 0) {
@@ -456,7 +457,7 @@ function renderProfile(p) {
     octx.fillText(LINE2, W/2, topOffset + fs1 * 0.85 + fs2 * 0.4);
 
     const imgData = octx.getImageData(0, 0, off.width, off.height);
-    const step = 4;
+    const step = 5;
     for (let y = 0; y < off.height; y += step) {
       for (let x = 0; x < off.width; x += step) {
         const idx = (y * off.width + x) * 4;
@@ -506,46 +507,47 @@ function renderProfile(p) {
 
   function animate() {
     ctx.clearRect(0, 0, W, H);
-    sctx.clearRect(0, 0, W, H);
 
+    // Only run physics when mouse is near or particles are displaced
+    let active = false;
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
-      const dx = p.x - mx;
-      const dy = p.y - my;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const forceRadius = 150;
 
-      if (mouseOn && dist < forceRadius) {
-        const force = (1 - dist / forceRadius);
-        const pushStrength = force * force * 20;
-        const angle = Math.atan2(dy, dx);
-        p.vx += Math.cos(angle) * pushStrength * 0.35;
-        p.vy += Math.sin(angle) * pushStrength * 0.35;
-        if (Math.random() < force * 0.2) {
-          sctx.beginPath();
-          sctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
-          sctx.fillStyle = 'rgba(196,161,88,0.35)';
-          sctx.fill();
+      if (mouseOn) {
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          const force = 1 - dist / 150;
+          const pStr = force * force * 20;
+          const a = Math.atan2(dy, dx);
+          p.vx += Math.cos(a) * pStr * 0.35;
+          p.vy += Math.sin(a) * pStr * 0.35;
+          active = true;
         }
       }
 
-      const sx = p.homeX - p.x;
-      const sy = p.homeY - p.y;
-      p.vx += sx * 0.05;
-      p.vy += sy * 0.05;
-      p.vx *= 0.84;
-      p.vy *= 0.84;
-      p.vx += (Math.random() - 0.5) * 0.06;
-      p.vy += (Math.random() - 0.5) * 0.06;
-
+      // Spring + damping + tremor (lighter)
+      p.vx += (p.homeX - p.x) * 0.05;
+      p.vy += (p.homeY - p.y) * 0.05;
+      p.vx *= 0.86;
+      p.vy *= 0.86;
+      p.vx += (Math.random() - 0.5) * 0.03;
+      p.vy += (Math.random() - 0.5) * 0.03;
       p.x += p.vx;
       p.y += p.vy;
 
+      if (Math.abs(p.vx) > 0.001 || Math.abs(p.vy) > 0.001) active = true;
+
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(196,161,88,${p.alpha})`;
+      ctx.fillStyle = 'rgba(196,161,88,' + p.alpha + ')';
       ctx.fill();
     }
+
+    // If all settled and mouse away, skip next ticks until mouse returns
+    if (!active && !mouseOn && fc2Skip > 0) fc2Skip--;
+    window.__sandActive = active || mouseOn;
   }
 
   // Unified frame ticking
